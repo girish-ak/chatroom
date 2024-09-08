@@ -57,8 +57,14 @@ func (c *client) readInput() {
 				client: c,
 				args: args,
 			}
+		case "/help":
+			c.commands<-command{
+				id: CMD_HELP,
+				client: c,
+				args: args,
+			}
 		default:
-			c.err(fmt.Errorf("Command Unknown -> %s", cmd))
+			c.err(fmt.Errorf("Command Unknown -> %s , please give /help to list available commands\n", cmd))
 		}
 	}
 }
@@ -68,5 +74,5 @@ func (c *client) err (err error){
 }
 
 func (c *client) msg (msg string) {
-	c.conn.Write([] byte(">>" + msg + "\n"))
+	c.conn.Write([] byte("\n\n--------------------------------------------\n >> " + msg + "\n--------------------------------------------\n\n"))
 }

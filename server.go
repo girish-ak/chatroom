@@ -33,6 +33,8 @@ func (s *server) run() {
 			s.msg(cmd.client, cmd.args)
 		case CMD_EXIT:
 			s.exit(cmd.client, cmd.args)
+		case CMD_HELP:
+			s.help(cmd.client)
 		}
 	}
 }
@@ -46,7 +48,7 @@ func (s *server) newClient(conn net.Conn) {
 		nick:     "anonymous",
 		commands: s.commands,
 	}
-
+	c.msg("\n\nWelcome to GoLANG ChatRoom! , give /help to list available commands")
 	c.readInput()
 }
 
@@ -91,7 +93,7 @@ func (s *server) listrooms (c *client, args []string){
 
 func (s *server) msg (c *client, args []string){
 	 if c.room==nil{
-		c.err(errors.New("You have to be participent of a room before sending a mesasge!,please give /rooms to check available rooms"))
+		c.err(errors.New("You have to be participent of a room before sending a message!,please give /rooms to check available rooms"))
 		return
 	}
 	
@@ -105,7 +107,9 @@ func (s *server) exit (c *client, args[] string){
 	c.conn.Close() 
 }
 
-
+func (s *server) help(c *client){
+	c.msg("List of Available Commands : \n 1. /nick <nick-name> = set a nickname for yourself \n 2. /join <room-name> = if exists will make you join that room, else creates you one with arg provided \n 3. /rooms = lists the available rooms \n 4. /msg = broadcasts the message in current room \n 5. /exit = exit from chatroom\n")
+}
 
 
 
