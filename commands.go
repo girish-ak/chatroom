@@ -1,4 +1,4 @@
-package chatroom
+package main
 
 type CommandID int
 
@@ -11,6 +11,7 @@ const (
 )
 
 type command struct {
-	id CommandID 
+	id     CommandID
 	client *client
+	args   []string
 }
